@@ -4,7 +4,6 @@ require 'fileutils'
 require 'openai'
 require 'uri'
 
-
 # Ensure your OpenAI API key is set in your environment variables
 #   export OPENAI_API_KEY="your-api-key"
 OPENAI_API_KEY = ENV['OPENAI_API_KEY']
@@ -13,7 +12,6 @@ if OPENAI_API_KEY.nil? || OPENAI_API_KEY.empty?
   puts "Please set the OPENAI_API_KEY environment variable."
   exit
 end
-
 
 client = OpenAI::Client.new(access_token: OPENAI_API_KEY)
 
@@ -41,12 +39,11 @@ PROMPTS = {
   20 => "A travel photograph of a tropical beach at sunset, with the golden light casting a warm glow over the sand and waves gently rolling in."
 }
 
-# Function to generate image (mocked API call)
-def generate_images(concept, prompt, num_images = 1)
+# Function to generate images using OpenAI API
+def generate_images(concept, prompt, num_images = 1, folder = 'result')
   client = OpenAI::Client.new(access_token: OPENAI_API_KEY)
 
-  # Mockup for API request (you would replace this with an actual API call)
-  puts "Generating image for concept: #{concept}, using prompt: #{prompt}"
+  # API request
   response = client.images.generate(parameters: {
     prompt: "#{concept}. #{prompt}",
     n: num_images,
@@ -61,17 +58,34 @@ def generate_images(concept, prompt, num_images = 1)
     uri = URI.parse(image_url)
     image_content = Net::HTTP.get(uri)
 
-    # Save the image to the result directory
-    image_file = "result/#{concept.gsub(' ', '_')}_#{index + 1}_#{Time.now.to_i}.png"
+    # Save the image to the specified directory
+    image_file = "#{folder}/#{concept.gsub(' ', '_')}_#{index + 1}_#{Time.now.to_i}.png"
     File.write(image_file, image_content)
     puts "Image #{index + 1} saved to #{image_file}"
   end
 end
 
+# Generate samples for all prompts
+def generate_samples
+  FileUtils.mkdir_p('samples')
+
+  PROMPTS.each do |prompt_id, prompt|
+    concept = "Sample_Prompt_#{prompt_id}"
+    puts "Generating 3 samples for Prompt #{prompt_id}: #{prompt}"
+    generate_images(concept, prompt, 3, 'samples')
+  end
+end
+
 # Main function to process the arguments
 def main
+  if ARGV.size == 1 && ARGV[0] == 'generate_samples'
+    generate_samples
+    return
+  end
+
   if ARGV.size != 3
     puts "Usage: ruby image_generator.rb <number_of_images> <prompt_id> <concept>"
+    puts "Or: ruby image_generator.rb generate_samples"
     exit
   end
 
