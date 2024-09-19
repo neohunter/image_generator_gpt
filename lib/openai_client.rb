@@ -9,6 +9,8 @@ class OpenAIClient
 
   def generate_images(prompt, num_images)
     @client.images.generate(parameters: {
+      model: "dall-e-3",
+      quality: "standard", 
       prompt: prompt,
       n: num_images,
       size: "1024x1024"
