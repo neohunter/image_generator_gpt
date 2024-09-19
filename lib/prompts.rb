@@ -11,7 +11,7 @@ module Prompts
     "watercolor_coffee_shop" => "A watercolor illustration, portraying a cozy coffee shop with soft pastel colors and a warm, inviting atmosphere.",
     "futuristic_car" => "A 3D render of a sleek, futuristic car design, featuring dynamic curves and advanced high-tech elements.",
     "smart_city" => "An isometric vector illustration of a futuristic smart city, with clean lines, self-driving cars, and green energy sources.",
-    "climate_infographic" => "A stylized infographic, focusing on climate data, using icons and cohesive color palettes for visual clarity.",
+    "infographic" => "A stylized infographic, using icons and cohesive color palettes for visual clarity.",
     "graffiti_logo" => "A bold graffiti-style logo, with bright colors and abstract shapes, evoking urban energy and creativity.",
     "retro_diner" => "A retro-style illustration of a 1950s diner, with neon signs, chrome finishes, and a nostalgic atmosphere.",
     "floating_kingdom" => "A fantasy concept art, depicting floating islands with grand castles, lush landscapes, and waterfalls.",
